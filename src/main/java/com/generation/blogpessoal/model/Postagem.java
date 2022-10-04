@@ -6,11 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity //transforma classe em uma tabela
 @Table(name = "tb_postagens") //dá nome à tabela
@@ -31,6 +34,10 @@ public class Postagem {
 	@UpdateTimestamp
 	private LocalDateTime data; //pega automaticamente data do sistema
 
+	@ManyToOne
+	@JsonIgnoreProperties("postagem") //para não ter um loop infinito
+	private Tema tema; //variavel que será a chave estrangeira
+	
 	public Long getId() {
 		return id;
 	}
@@ -61,6 +68,14 @@ public class Postagem {
 
 	public void setData(LocalDateTime data) {
 		this.data = data;
+	}
+
+	public Tema getTema() {
+		return tema;
+	}
+
+	public void setTema(Tema tema) {
+		this.tema = tema;
 	}
 	
 	
