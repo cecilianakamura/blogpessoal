@@ -38,6 +38,10 @@ public class Postagem {
 	@JsonIgnoreProperties("postagem") //para não ter um loop infinito
 	private Tema tema; //variavel que será a chave estrangeira
 	
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private Usuario usuario;
+	
 	public Long getId() {
 		return id;
 	}
