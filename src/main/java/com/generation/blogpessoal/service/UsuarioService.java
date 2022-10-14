@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.blogpessoal.model.Usuario;
+import com.generation.blogpessoal.model.UsuarioLogin;
 import com.generation.blogpessoal.repository.UsuarioRepository;
 
 @Service
@@ -29,7 +30,6 @@ public class UsuarioService {
 		return Optional.of(usuarioRepository.save(usuario));
 	}
 
-	
 	public Optional<Usuario> atualizarUsuario(Usuario usuario) {
 
 		if (usuarioRepository.findById(usuario.getId()).isPresent()) {
@@ -40,12 +40,32 @@ public class UsuarioService {
 			}
 			usuario.setSenha(criptografarSenha(usuario.getSenha()));
 		}
-		
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Usuário não encontrado!",null);
+
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!", null);
 
 	}
 
-	
+	public Optional<UsuarioLogin> logarUsuario(Optional<UsuarioLogin> usuarioLogin ){
+			
+			Optional<Usuario> usuario = usuarioRepository
+					.findByUsuario(usuarioLogin.get().getUsuario());
+		if(usuario.isPresent()) {
+			if(compararSenhas(usuarioLogin.get().getSenha(),usuario.get().getSenha())) {
+				
+				usuarioLogin.get().setId(usuario.get().getId());
+				usuarioLogin.get().setNome(usuario.get().getNome());
+				usuarioLogin.get().setFoto(usuario.get().getFoto());
+				usuarioLogin.get().setToken(gerarBasicToken(usuarioLogin.get().getUsuario(),
+						usuarioLogin.get().getSenha()));
+				usuarioLogin.get().setSenha(usuario.get().getSenha());
+
+				return usuarioLogin;
+			}
+		}
+		
+		}
+	}
+
 	private String criptografarSenha(String senha) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String senhaEncoder = encoder.encode(senha);
