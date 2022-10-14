@@ -45,7 +45,7 @@ public class UsuarioService {
 
 	}
 
-	public Optional<UsuarioLogin> logarUsuario(Optional<UsuarioLogin> usuarioLogin ){
+	public Optional<UsuarioLogin> logarUsuario(Optional<UsuarioLogin> usuarioLogin){
 			
 			Optional<Usuario> usuario = usuarioRepository
 					.findByUsuario(usuarioLogin.get().getUsuario());
@@ -63,8 +63,8 @@ public class UsuarioService {
 			}
 		}
 		
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Usuário ou senha inválidos!",null);
 		}
-	}
 
 	private String criptografarSenha(String senha) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
