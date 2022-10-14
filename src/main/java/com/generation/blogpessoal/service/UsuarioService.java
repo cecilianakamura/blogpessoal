@@ -29,6 +29,7 @@ public class UsuarioService {
 		return Optional.of(usuarioRepository.save(usuario));
 	}
 
+	
 	public Optional<Usuario> atualizarUsuario(Usuario usuario) {
 
 		if (usuarioRepository.findById(usuario.getId()).isPresent()) {
@@ -44,6 +45,7 @@ public class UsuarioService {
 
 	}
 
+	
 	private String criptografarSenha(String senha) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String senhaEncoder = encoder.encode(senha);
