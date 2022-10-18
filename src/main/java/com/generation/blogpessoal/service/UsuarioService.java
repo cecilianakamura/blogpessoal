@@ -39,6 +39,8 @@ public class UsuarioService {
 					throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
 			}
 			usuario.setSenha(criptografarSenha(usuario.getSenha()));
+			
+			return Optional.of(usuarioRepository.save(usuario));
 		}
 
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!", null);
@@ -77,7 +79,7 @@ public class UsuarioService {
 		return encoder.matches(senhaDigitada, senhaBanco);
 	}
 
-	private String gerarBasicToken(String email, String password) {
+	private static String gerarBasicToken(String email, String password) {
 		String estrutura = email + ":" + password;
 		byte[] estruturaBase64 = Base64.encodeBase64(estrutura.getBytes(Charset.forName("US-ASCII")));
 		return "Basic " + new String(estruturaBase64);

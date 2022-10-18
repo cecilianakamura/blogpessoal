@@ -39,7 +39,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Usuario> getById(@PathVariable long id){
+	public ResponseEntity<Usuario> getById(@PathVariable Long id){
 		return repository.findById(id)
 				.map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.notFound().build());
@@ -66,5 +66,6 @@ public class UsuarioController {
 		return service.atualizarUsuario(usuario)
 				.map(resposta->ResponseEntity.status(HttpStatus.OK).body(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+		
 	}
 }
