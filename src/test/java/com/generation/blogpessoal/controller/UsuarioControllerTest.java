@@ -2,6 +2,8 @@ package com.generation.blogpessoal.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -71,6 +73,29 @@ public class UsuarioControllerTest {
 				.exchange("/usuarios/cadastrar", HttpMethod.POST,requisicao, Usuario.class);
 		
 		assertEquals(HttpStatus.BAD_REQUEST, resposta.getStatusCode());
-		
 	}
+	
+	@Test
+	@Order(2)
+	@DisplayName("Alterar um Usuário")
+	public void deveAtualizarUmUsuario() {
+		
+		Optional<Usuario> usuarioCreate = usuarioService.cadastrarUsuario(new Usuario
+				(0L,"Juliana Andrews","juliana_andrews@email.com.br","juliana123","http://i.imgur.com/yDRVeK7"));
+		
+		Usuario usuarioUpdate = new Usuario(usuarioCreate.get().getId(),
+				"Juliana Andrews Ramos","juliana_ramos@email.com.br","juliana123","http://i.imgur.com/yDRVeK7");
+		
+		HttpEntity<Usuario> requisicao = new HttpEntity<Usuario>(usuarioUpdate);
+		
+		ResponseEntity<Usuario> resposta = testRestTemplate
+				.withBasicAuth("root", "root")
+				.exchange("/usuarios/atualizar", HttpMethod.PUT,requisicao, Usuario.class);
+		
+		assertEquals(HttpStatus.OK,resposta.getStatusCode());
+		assertEquals(usuarioUpdate.getNome(),resposta.getBody().getNome());
+		assertEquals(usuarioUpdate.getFoto(),resposta.getBody().getFoto());
+		assertEquals(usuarioUpdate.getUsuario(),resposta.getBody().getUsuario());
+	}
+	
 }
