@@ -76,7 +76,7 @@ public class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(2)
+	@Order(3)
 	@DisplayName("Alterar um Usuário")
 	public void deveAtualizarUmUsuario() {
 		
@@ -98,4 +98,20 @@ public class UsuarioControllerTest {
 		assertEquals(usuarioUpdate.getUsuario(),resposta.getBody().getUsuario());
 	}
 	
+	@Test
+	@Order(4)
+	@DisplayName("Listar todos os usuários")
+	public void deveMostrarTodosUsuarios() {
+		
+		usuarioService.cadastrarUsuario(new Usuario
+				(0L,"Sabrina Sanches","sabrina_sanches@email.com.br","sabrina123","http://i.imgur.com/EcJG8kB.jpg"));
+		usuarioService.cadastrarUsuario(new Usuario
+				(0L,"Ricardo Marques","r_marques@email.com","ricardo123","http://i.imgur.com/Sk5SjWE.jpg"));
+		
+		ResponseEntity<String> resposta = testRestTemplate
+				.withBasicAuth("root", "root")
+				.exchange("/usuarios/all", HttpMethod.GET, null, String.class);
+	
+		assertEquals(HttpStatus.OK,resposta.getStatusCode());
+	}
 }
