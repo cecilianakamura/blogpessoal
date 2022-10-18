@@ -11,9 +11,9 @@ import com.generation.blogpessoal.model.Usuario;
 @Repository //repositorio de configurações herdadas do JpaRepository
 public interface UsuarioRepository extends JpaRepository<Usuario,Long> {
 	
-	public Optional<Usuario> findByUsuario(String usuario);
+	public Optional<Usuario> findByUsuario(String usuario); //busca específica por e-mail
 	
-	public List<Usuario> findAllByNomeContainingIgnoreCase (String nome);
+	public List<Usuario> findAllByNomeContainingIgnoreCase (String nome); //busca específica por nome
 	
 	//Optional -> busca um usuario em específico, ao invés de listar todos os usuarios
 
