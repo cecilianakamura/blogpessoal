@@ -30,8 +30,8 @@ public class SwaggerConfig {
 							.url("https://github.com/cecilianakamura")
 							.email("ceci.n.nakamura@gmail.com")))
 					.externalDocs(new ExternalDocumentation()
-							.description("GitHub")
-							.url("https://github.com/conteudoGeneration"));
+							.description("Projeto Integrador E-commerce DaTerra")
+							.url("https://github.com/ProjetoIntegradorG3/ProjetoIntegrador"));
 					}
 	
 	@Bean
